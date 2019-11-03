@@ -11,6 +11,22 @@
     - [接口名](#%e6%8e%a5%e5%8f%a3%e5%90%8d)
     - [驼峰](#%e9%a9%bc%e5%b3%b0)
   - [分号](#%e5%88%86%e5%8f%b7)
+  - [函数](#%e5%87%bd%e6%95%b0)
+    - [多返回值](#%e5%a4%9a%e8%bf%94%e5%9b%9e%e5%80%bc)
+    - [命名结果参数](#%e5%91%bd%e5%90%8d%e7%bb%93%e6%9e%9c%e5%8f%82%e6%95%b0)
+    - [defer](#defer)
+  - [数据](#%e6%95%b0%e6%8d%ae)
+    - [使用 new 分配](#%e4%bd%bf%e7%94%a8-new-%e5%88%86%e9%85%8d)
+    - [构造函数和复合字面量](#%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%92%8c%e5%a4%8d%e5%90%88%e5%ad%97%e9%9d%a2%e9%87%8f)
+    - [使用 make 分配](#%e4%bd%bf%e7%94%a8-make-%e5%88%86%e9%85%8d)
+    - [数组](#%e6%95%b0%e7%bb%84)
+    - [切片](#%e5%88%87%e7%89%87)
+    - [二维切片](#%e4%ba%8c%e7%bb%b4%e5%88%87%e7%89%87)
+    - [映射](#%e6%98%a0%e5%b0%84)
+    - [打印](#%e6%89%93%e5%8d%b0)
+    - [追加](#%e8%bf%bd%e5%8a%a0)
+  - [初始化](#%e5%88%9d%e5%a7%8b%e5%8c%96)
+    - [常数](#%e5%b8%b8%e6%95%b0)
 
 参考 [Golang 官网文档——Effective Go](https://golang.org/doc/effective_go.html) 学习。
 
@@ -34,8 +50,8 @@ Go 是一门新语言。虽然它从现有语言借鉴了想法，但是它有�
 
 ```go
 type T struct {
-    name string // name of the object
-    value int // its value
+    name string // 对象的名字
+    value int // 对象的值
 }
 ```
 
@@ -43,8 +59,8 @@ gofmt 会列对齐：
 
 ```go
 type T struct {
-    name    string // name of the object
-    value   int    // its value
+    name    string // 对象的名字
+    value   int    // 对象的值
 }
 ```
 
@@ -72,23 +88,23 @@ godoc 程序，也是 web 服务器，处理 Go 源文件以提取关于包内�
 
 ```go
 /*
-Package regexp implements a simple library for regular expressions.
+包 regexp 实现了正则表达式的一个简单库。
 
-The syntax of the regular expressions accepted is:
+接收正则表达式的语法是:
 
-    regexp:
-        concatenation { '|' concatenation }
-    concatenation:
-        { closure }
-    closure:
-        term [ '*' | '+' | '?' ]
-    term:
+    正则表达式:
+        连接 { '|' 连接 }
+    连接:
+        { 闭包 }
+    闭包:
+        项 [ '*' | '+' | '?' ]
+    项:
         '^'
         '$'
         '.'
-        character
-        '[' [ '^' ] character-ranges ']'
-        '(' regexp ')'
+        字符
+        '[' [ '^' ] 字符范围 ']'
+        '(' 正则表达式 ')'
 */
 package regexp
 ```
@@ -96,8 +112,7 @@ package regexp
 如果是一个简单包，包注释可以是简洁的。
 
 ```go
-// Package path implements utility routines for
-// manipulating slash-separated filename paths.
+// 包 path 实现了功能代码，用于操作斜线分隔的文件名路径。
 ```
 
 注释不需要额外的格式比如一行星号。生成的输出可能不能显式为固定宽度的字体，因此不要依赖空格对齐——godoc 像 gofmt 一样，会注意对齐问题。注释是无解释的普通文本，因此 HTML 和其他的注解，比如 \_this\_，会逐字重复，不应该使用。godoc 会做的一个调整是按固定宽度的字体显示缩进文本，适用于代码片段。[fmt 包](../golangpkg/fmt.md)对包注释的使用恰到好处。
@@ -109,8 +124,7 @@ package regexp
 文档注释最好是完整的句子，允许不同的自动化显示。第一个句子应该是一个总结句，以声明的名字开头。
 
 ```go
-// Compile parses a regular expression and returns, if successful,
-// a Regexp that can be used to match against text.
+// Compile 解析一个正则表达式，且成功时返回一个可用于匹配文本的 Regexp 对象。
 func Compile(str string) (*Regexp, error) {
 ```
 
@@ -132,7 +146,7 @@ $ go doc -all regexp | grep -i parse
 Go 的声明语法允许分组声明。一个单一的文档注释可以介绍一组相关的常量或变量。因为显示了整个声明，这样的注释通常是敷衍了事的。
 
 ```go
-// Error codes returned by failures to parse an expression.
+// 解析表达式失败时返回的错误代码。
 var (
     ErrInternal      = errors.New("regexp: internal error")
     ErrUnmatchedLpar = errors.New("regexp: unmatched '('")
@@ -188,3 +202,252 @@ if owner != user {
 最后，Go 的惯例是使用 MixedCaps 或 mixedCaps 而不是下划线来写多单词的名字。
 
 ## 分号
+
+## 函数
+
+### 多返回值
+
+Go 其中一个非凡的特性时函数和方法可以返回多个值。这个性质可用于改善 C 程序中的一些笨拙的写法：in-band 错误返回类似 -1 的值表示错误码并修改通过地址传递的参数。
+
+在 C 语言，使用一个负的计数器标记一个写入错误，且错误码隐藏在一个不固定位置。在 Go 语言，`Write` 可以返回一个计数器和一个错误：“是的，你写了一部分但非全部的字节，因为你已经填满了设备”。`os` 包中作用于文件的 `Write` 方法签名：
+
+```go
+func (file *File) Write(b []byte) (n int, err error)
+```
+
+且如文档所说，当 n 不等于 b 时这个方法返回写入的字节数和一个非空的错误。这是常见的风格；查看错误处理部分获得更多例子。
+
+一个类似的方法不需要传递一个指针给返回值来模拟一个引用参数。下面是一个简单的函数，从一个字节切片的某个位置起捕获一个数字，返回该数字和下一个位置。
+
+```go
+func nextInt(b []byte, i int) (int, int) {
+    for ; i < len(b) && !isDigit(b[i]); i++ {
+    }
+    x := 0
+    for ; i < len(b) && isDigit(b[i]); i++ {
+        x = x*10 + int(b[i]) - '0'
+    }
+    return x, i
+}
+```
+
+你可以使用这个方法像下面这样来扫描一个输入切片 `b` 的数字：
+
+```go
+for i := 0; i < len(b); {
+    x, i = nextInt(b, i)
+    fmt.Println(x)
+}
+```
+
+### 命名结果参数
+
+Go 函数的返回或结果“参数”可以指定名字并作为普通变量使用，就像使用传入参数。当函数开始时，命名的参数被初始化对应类型的零值；如果函数执行一个不带参数的 `return` 语句，返回参数的当前值被作为返回值。
+
+名字不是必须的，但是名字可以使得代码更加简短清晰：名字即是文档。如果我们将 `nextInt` 的结果命名，很显然返回的 `int` 含义。
+
+```go
+func nextInt(b []byte, pos int) (value, nextPos int) {
+```
+
+因为命名的结果会被初始化且绑定在一个简单的 `return`，它们可以既简单又清晰。下面是 `oi.ReadFull` 使用命名结果良好的版本：
+
+```go
+func ReadFull(r Reader, buf []byte) (n int, err error) {
+    for len(buf) > 0 && err == nil {
+        var nr int
+        nr, err = r.Read(buf)
+        n += nr
+        buf = buf[nr:]
+    }
+    return
+}
+```
+
+### defer
+
+Go 的 `defer` 语句安排执行 `defer` 的函数返回之前立即运行一个函数调用(即推迟的函数)。这是一个处理一些场景特别而高效的方式，比如无论函数使用哪条路径返回都必须释放的资源。经典的例子是解锁一个互斥锁或关闭一个文件。
+
+```go
+// Contents 将文件内容作为字符串返回。
+func Contents(filename string) (string, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return "", err
+    }
+    defer f.Close()  // 函数结束时会运行 f.Close。
+
+    var result []byte
+    buf := make([]byte, 100)
+    for {
+        n, err := f.Read(buf[0:])
+        result = append(result, buf[0:n]...) // 后面会讨论 append。
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            return "", err  // 如果在这里返回，会关闭 f。
+        }
+    }
+    return string(result), nil // 如果在这里返回，会关闭 f。
+}
+```
+
+推迟一个类似于 `Close` 的函数调用有两个优点。其一，它保证你永远不会忘记关闭一个文件，如果你之后编辑这个函数增加一个新的返回路径，这是很容易犯的一个错误。其二，它意味着关闭挨着打开操作，这比放在函数末尾更加清晰。
+
+推迟的函数参数(当函数是一个方法时还包括接收者)在执行 `defer` 时计算值，而不是执行调用时计算。除了避免担心在函数执行时修改变量值，这还意味着一个单一的推迟调用可以推迟多个函数执行。这里有一个丑陋的示例。
+
+```go
+for i := 0; i < 5; i++ {
+    defer fmt.Printf("%d ", i)
+}
+```
+
+推迟的函数按照 LIFO (后进先出)的顺序执行，因此上述代码函数返回时，会打印“ 4 3 2 1 0”。一个更加合乎情理的例子是使用一个简单的方式来跟踪程序的函数执行。我们可以写一些像这样的简单的跟踪代码：
+
+```go
+func trace(s string)   { fmt.Println("entering:", s) }
+func untrace(s string) { fmt.Println("leaving:", s) }
+
+// 像这样使用它们:
+func a() {
+    trace("a")
+    defer untrace("a")
+    // 做一些事情....
+}
+```
+
+我们可以利用延迟函数的参数在执行 `defer` 时计算这一事实做的更好。跟踪代码可以设置不跟踪代码的参数。下面的例子
+
+```go
+func trace(s string) string {
+    fmt.Println("entering:", s)
+    return s
+}
+
+func un(s string) {
+    fmt.Println("leaving:", s)
+}
+
+func a() {
+    defer un(trace("a"))
+    fmt.Println("in a")
+}
+
+func b() {
+    defer un(trace("b"))
+    fmt.Println("in b")
+    a()
+}
+
+func main() {
+    b()
+}
+```
+
+打印
+
+```text
+entering: b
+in b
+entering: a
+in a
+leaving: a
+leaving: b
+```
+
+对于习惯块级别资源管理的其他语言的编程人员，`defer` 可能看起来怪异的，但是它最有趣且强大的应用正来自它不是块级别而是函数级别的事实。在 `panic` 和 `recover` 部分，我们会看到另一个可能使用 `defer` 的例子。
+
+## 数据
+
+### 使用 new 分配
+
+Go 有两种分配原语，即内置函数 `new` 和 `make`。它们做了不同的事情且适用于不同类型，这可能有点难以理解，但是规则很简单。我们首先讨论 `new`。它是一个分配内存的内置函数，但是和一些其他语言的同名函数不同，它不会初始化内存，它只是将内存置零。也就是说，`new(T)` 为类型 T 的新条目分配置零的存储，并返回存储地址(值为类型 T*)。在 Go 的术语中， 它返回一个指针指向一个新分配的类型 T 的零值。
+
+因为 `new` 返回的内存是置零的，当将你的数据结构设计为每个类型的零值都可以直接使用不需要进一步初始化，在安排的时候是很有用的。这意味着数据结构的使用者可以使用 `new` 创建一个对象并正常工作。比如，`bytes.Buffer` 的文档声明“ Buffer 的零值是一个就绪的空缓冲”。类似的，`sync.Mutex` 没有一个显式的构造函数或 `Init` 方法。反之，`sync.Mutex` 的零值被定义为一个未上锁的互斥锁。
+
+“零值是有用的”这一属性可以传递。考虑这个类型声明：
+
+```go
+type SyncedBuffer struct {
+    lock    sync.Mutex
+    buffer  bytes.Buffer
+}
+```
+
+`SyncedBuffer` 类型的值也是分配或声明时就绪的。在下一个片段中，`p` 和 `v` 都可以正确工作而不用进一步安排。
+
+```go
+p := new(SyncedBuffer)  // *SyncedBuffer 类型
+var v SyncedBuffer      // SyncedBuffer 类型
+```
+
+### 构造函数和复合字面量
+
+有时候零值不够好，且需要一个初始化构造函数，正如下面从 `os` 包衍生的一个例子：
+
+```go
+func NewFile(fd int, name string) *File {
+    if fd < 0 {
+        return nil
+    }
+    f := new(File)
+    f.fd = fd
+    f.name = name
+    f.dirinfo = nil
+    f.nepipe = 0
+    return f
+}
+```
+
+这里有很多模板式代码。我们可以使用一个“复合字面量”来简化代码。“复合字面量”是一个表达式，它在每次求值时创建一个新的实例。
+
+```go
+func NewFile(fd int, name string) *File {
+    if fd < 0 {
+        return nil
+    }
+    f := File{fd, name, nil, 0}
+    return &f
+}
+```
+
+注意，和 C 不同，返回一个局部变量的地址是完全可以的；和变量相关的存储在函数返回时仍存在。事实上，使用复合字面量的地址在每次求值时分配一个新的实例，因此我们可以合并后面两行代码：
+
+```go
+return &File{fd, name, nil, 0}
+```
+
+复合字面量的域按顺序放置且必须都要出现。然而，通过显式给域打像 `field:value` 的标签，初始化列表可以按任何顺序出现，且缺失的域会分别使用对应的零值。因此我们可以写
+
+```go
+return &File{fd: fd, name: name}
+```
+
+作为一个限制性场景，如果一个复合字面量不包含任何域，它会为类型创建零值。表达式 `new(File)` 和 `&File{}` 是等价的。
+
+复合字面量也可用于创建数组、切片和映射，使用索引或合适的键给域打标签，在这些例子中，无论 `Enone`、`Eio` 和 `Einval` 的值是什么，只要它们是唯一的，初始化器都可以工作。
+
+```go
+a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+m := map[int]string{Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+```
+
+### 使用 make 分配
+
+### 数组
+
+### 切片
+
+### 二维切片
+
+### 映射
+
+### 打印
+
+### 追加
+
+## 初始化
+
+### 常数
