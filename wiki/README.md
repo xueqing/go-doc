@@ -75,12 +75,34 @@
 当你对这门语言有一个概览之后，这里有一些资源供你使用学习更多关于 Go：
 
 - [ ] [学习 Go](https://github.com/golang/go/wiki/Learn)—— Go 入门到高级的资料集合
+  - [ ] [Go 新手开发人员的最佳实践](https://medium.com/@IndianGuru/best-practices-for-a-new-go-developer-8660384302fc)——来自 Go 社区成员的见解
+  - [ ] [服务器编程](https://github.com/golang/go/wiki/LearnServerProgramming)——构建 web、移动端和 API 服务器
+  - [ ] [并发](https://github.com/golang/go/wiki/LearnConcurrency)
+  - [ ] [错误处理](https://github.com/golang/go/wiki/LearnErrorHandling)
   - [ ] [测试](learn_testing.md)
+  - [ ] [移动端](https://github.com/golang/go/wiki/Mobile)——安卓和 iOS
 - [ ] [书籍](https://github.com/golang/go/wiki/Books)——一份已经出版的(电子书，论文)关于 Go 的的书籍清单
 - [ ] [博客](https://github.com/golang/go/wiki/Blogs)——关于 Go 的博客
-  - [ ] [播客]
+  - [ ] [播客]——描写 Go 特色的播客和故事
+- [ ] 视频、谈话和演示
+  - [ ] [GopherVids](http://gophervids.appspot.com/) 是一个关于 Go 的视频的搜索目录
+  - [ ] [GoTalks](https://github.com/golang/go/wiki/GoTalks)——来自 Go 会议和聚会的谈话集合
+  - [ ] [Screencasts](https://github.com/golang/go/wiki/Screencasts)
+- [ ] [文章](https://github.com/golang/go/wiki/Articles)——帮助你学习 Go 的文章集合
+- [ ] [培训](https://github.com/golang/go/wiki/Training)——免费的、商业的、在线的 Go 课堂培训
+- [ ] [大学课程](https://github.com/golang/go/wiki/Courses)——一个使用 Go 的 CS 编程和课程列表
+- [ ] [非英语人士的资源](https://github.com/golang/go/wiki/NonEnglish)
 
 ### Go 社区
+
+有一些地方，你可以找到在线的 Gophers。要了解成为 Go 社区一名成员意味着什么，阅读 [Damian Gryski 在 2015 年 GolankUK 会议上的主题演讲](https://medium.com/@dgryski/the-go-community-f0d00e3a19e)或者观看 [Andrew Gerrand 在 2015 年 GopherCon 上的闭幕演讲](https://www.youtube.com/watch?v=0ht89TxZZnk)。
+
+- Gophers 在线聚会场所：
+  - [Go 论坛](https://forum.golangbridge.org/)——Go 社区的万能讨论论坛
+  - [Gophers Slack Channel](http://gophers.slack.com/)——针对实时聊天([要求成员](http://blog.gopheracademy.com/gophers-slack-community/))
+  - [Golang 新闻](http://golangnews.com/)——关于 Go 编程的链接
+  - [r/golang](http://reddit.com/r/golang)——sub-reddit
+  - 在 Twitter 上，follow @golang 账户，并且
 
 ### 使用 go 工具链
 
