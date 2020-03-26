@@ -526,6 +526,8 @@ m := map[int]string{Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
 
 ### 使用 make 分配
 
+回到分配。内置函数 `make(T, args)` 提供一个不同于 `new(T)` 的目的。它只能创建切片、映射和 channel。
+
 ### 数组
 
 ### 切片
