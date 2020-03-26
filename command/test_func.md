@@ -47,3 +47,12 @@ func ExamplePerm() {
 当文件包含一个单独的示例函数，及至少一个其他的函数、类型、变量或常数声明，且没有测试函数或者基准测试函数时，整个测试文件作为例子显示。
 
 查看 [testing 包的文档](../wiki/golangpkg/testing.md)查看更多信息。
+
+## 命令
+
+```sh
+# 测试单个文件，一定要带上被测试的原文件
+go test -v pkgfile_test.go pkgfile.go
+# 测试单个方法
+go test -v -test.run TestFuncName
+```
