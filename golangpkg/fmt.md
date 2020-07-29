@@ -1,5 +1,11 @@
 # fmt 包
 
+- [fmt 包](#fmt-包)
+  - [概述](#概述)
+    - [打印](#打印)
+  - [索引](#索引)
+  - [例子](#例子)
+
 参考 [Golang 官网文档](https://golang.org/pkg/fmt/) 学习。
 
 导入语句：`import "fmt"`
