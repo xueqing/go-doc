@@ -147,7 +147,7 @@ func ExampleT_M_suffix() { ... }
 
 ### 跳过测试
 
-可在运行时调用 *T 或 *B 的 Skip 方法跳过功能测试或基准测试：
+可在运行时调用 \*T 或 \*B 的 Skip 方法跳过功能测试或基准测试：
 
 ```go
 func TestTimeConsuming(t *testing.T) {
