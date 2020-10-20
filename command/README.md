@@ -1,5 +1,9 @@
 # go 命令学习
 
+- [go 命令学习](#go-命令学习)
+  - [用法](#用法)
+  - [其他目录](#其他目录)
+
 参考 [Go 命令官网](https://golang.org/cmd/go/) 学习。
 
 ## 用法
@@ -55,3 +59,14 @@ Go 是一个用于管理 Go 源码的工具。
 | testfunc | 测试函数 |
 
 使用 `go help <topic>` 查看话题的更多信息。
+
+## 其他目录
+
+- [显示包或符号的文档](show_doc.md)
+- [GOPATH 环境变量](gopath_env_var.md)
+- [GOPATH 和模块](gopath_and_module.md)
+- [远程导入路径](remote_import_path.md)
+- [测试标识](test_flag.md)
+- [测试函数](test_func.md)
+
+- [cgo](cgo.md) 调用 C 代码

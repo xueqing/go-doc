@@ -1,5 +1,7 @@
 # 远程导入路径
 
+[原文](https://golang.org/cmd/go/#hdr-Remote_import_paths)
+
 一些导入路径也描述了如何使用版本控制系统获取包的源码。
 
 一些常见的代码托管网站有一些特殊的语法：

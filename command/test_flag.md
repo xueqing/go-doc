@@ -1,5 +1,7 @@
 # 测试标识
 
+[原文](https://golang.org/cmd/go/#hdr-Testing_flags)
+
 `go test` 命令使用只适用于 `go test` 的标识以及适用于生成二进制测试的标识。
 
 一些标识控制概要并且写适用于 `go tool pprof` 的执行概要；运行 `go tool pprof -h` 查看更多信息。pprof 的 --alloc_space、--alloc_objects 和 --show_bytes 选项控制如何显示这些信息。

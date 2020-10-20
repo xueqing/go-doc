@@ -1,5 +1,7 @@
 # GOPATH 环境变量
 
+[原文](https://golang.org/cmd/go/#hdr-GOPATH_environment_variable)
+
 Go 路径用于解决导入语句，它通过 go/build 包实现，并记录在 go/build 包。
 
 GOPATH 环境变量列举了寻找 Go 代码的位置。在 Unix 上，其值是一个冒号分隔的字符串。在 Windows 上，其值是一个分号分隔的字符串。在 Plan 9 上，其值是一个列表。

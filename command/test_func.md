@@ -1,5 +1,7 @@
 # 测试函数
 
+[原文](https://golang.org/cmd/go/#hdr-Testing_functions)
+
 `go test` 命令预期查找对应测试包的 “*_test.go” 文件中的测试函数、基准测试函数和示例函数。
 
 测试函数命名为 TestXxx(Xxx 不以小写字母开始)，且应当有签名

@@ -1,4 +1,4 @@
-# go bug
+# 开一个 bug 报告
 
 用法：`go bug`
 
