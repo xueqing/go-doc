@@ -2,6 +2,8 @@
 
 - [time 包](#time-包)
   - [概述](#概述)
+  - [索引](#索引)
+  - [例子](#例子)
   - [Ticker 类型](#ticker-类型)
     - [func NewTicker](#func-newticker)
     - [func (*Ticker) Reset](#func-ticker-reset)
@@ -11,8 +13,6 @@
     - [func NewTimer](#func-newtimer)
     - [func (*Timer) Reset](#func-timer-reset)
     - [func (*Timer) Stop](#func-timer-stop)
-  - [索引](#索引)
-  - [例子](#例子)
 
 参考 [Golang 官网文档](https://golang.org/pkg/time/) 学习。
 
@@ -23,6 +23,14 @@
 time 包提供了用于测量和显示时间的功能。
 
 日历计算始终采用公历，没有闰秒(leap second)。
+
+## 索引
+
+[参考](https://golang.org/pkg/time/#pkg-index)
+
+## 例子
+
+[参考](https://golang.org/pkg/time/#pkg-examples)
 
 ## Ticker 类型
 
@@ -126,11 +134,3 @@ if !t.Stop() {
 这个操作不能和计时器通道的其他接收操作或计时器的 `Stop` 方法的调用同时进行。
 
 对于使用 `AfterFunc(d, f)` 创建的计时器，如果 `t.Stop` 返回 false，那么计时器已经到期且函数 `f` 已经在其自己的 goroutine 启动；`Stop` 不会等待 `f` 完成再返回。如果调用者需要知道 `f` 是否完成，那么它必须与 `f` 显式协调。
-
-## 索引
-
-[参考](https://golang.org/pkg/time/#pkg-index)
-
-## 例子
-
-[参考](https://golang.org/pkg/time/#pkg-examples)
