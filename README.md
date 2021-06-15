@@ -7,4 +7,4 @@
 - [翻译 golang.org/doc/* 文章](golangdoc/README.md)
 - [翻译 golang.org/pkg/* 文章](golangpkg/README.md)
 - [tour.golang.org 的练习](gotour/README.md)
-- [翻译 github.com/golang/go/wiki/* 文章](wiki/README.md)
+- [翻译 github.com/golang/go/wiki/* 文章](golangwiki/README.md)
