@@ -125,6 +125,6 @@ func Print(s string) {
 
 ## 更多 cgo 资源
 
-[cgo 命令](https://golang.org/cmd/cgo/)文档有更多关于 C 胃宝和构建过程的细节。Go 树中的 [cgo 示例](https://golang.org/misc/cgo/)演示更多高级的概念。
+[cgo 命令](https://golang.org/cmd/cgo/)文档有更多关于 C 伪包和构建过程的细节。Go 树中的 [cgo 示例](https://golang.org/misc/cgo/)演示更多高级的概念。
 
 最后，如果你对这些内部是如何工作的感兴趣，查看 runtime 包的 [cgocall.go](https://golang.org/src/runtime/cgocall.go) 的介绍注释。
