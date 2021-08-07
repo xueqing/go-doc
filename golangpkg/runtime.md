@@ -35,11 +35,11 @@ SetFinalizer 将与对象关联的终结器设置为提供的的 finalizer 函�
 
 SetFinalizer(obj, nil) 清除与 obj 关联的所有 finalizer。
 
-obj 参数必须是指向一个对象的指针，该对象通过调用 new、获取复合字面量的地址，或获取局部变量的地址分配。finalizer 参数 必须是一个函数，该函数接受一个可以赋值给 obj 类型的参数，且可以有任意返回值，但是返回值被忽略。如果这些任何一个不满足，SetFinalizer 可能会终止程序。
+obj 参数必须是指向一个对象的指针，该对象通过调用 new、获取复合字面量的地址，或获取局部变量的地址分配。finalizer 参数必须是一个函数，该函数接受一个可以赋值给 obj 类型的参数，且可以有任意被忽略的返回值。如果这些任何一个不满足，SetFinalizer 可能会终止程序。
 
-finalizer 按照依赖顺序运行：如果 A 指向 B，二者都有 finalizer，则除非两者都不可达，只会运行 A 的 finalizer；一旦 A 被释放，可以运行 B 的 finalizer。如果循环结构包含一个带有 finalizer 的块，则不能保证该循环被垃圾回收，且不能保证会运行 finalizer，因为没有关于依赖的顺序。
+finalizer 按照依赖顺序运行：如果 A 指向 B，二者都有 finalizer，则两者都不可达时，只会运行 A 的 finalizer；一旦 A 被释放，可以运行 B 的 finalizer。如果循环结构包含一个带有 finalizer 的块，则不能保证该循环被垃圾回收，且不能保证会运行 finalizer，因为没有关于依赖的顺序。
 
-当程序不能再访问 obj 指向的对象后，计划在任意时间运行 finalizer。不能保证在程序退出之前运行 finalizer，因此一般它们只用于在长期运行的程序期间，释放与对象关联的非内存资源。例如，当程序没有调用 Close 丢弃 os.File 时，os.File 对象可以使用 finalizer 来关闭关联的操作系统文件描述符，但是不要依赖 finalizer 来刷新内存中的 I/O 缓冲区，例如 bufio.Writer，因为在程序退出时不会刷新缓冲区。
+当程序不能再访问 obj 指向的对象后，计划在任意时间运行 finalizer。不能保证在程序退出之前运行 finalizer，因此一般它们只用于在长期运行的程序中，释放与对象关联的非内存资源。例如，当程序丢弃 os.File 对象没有调用 Close 时，os.File 对象可以使用 finalizer 来关闭关联的操作系统文件描述符，但是不要依赖 finalizer 来刷新内存中的 I/O 缓冲区，例如 bufio.Writer，因为在程序退出时不会刷新缓冲区。
 
 如果 *obj 的大小为零字节，则不能保证运行 finalizer。
 
